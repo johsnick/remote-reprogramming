@@ -1,4 +1,3 @@
-# Remote Reprogramming
 ## Setup
 ### 1. Clone the repo
 ```
@@ -30,9 +29,7 @@ curl -L https://github.com/docker/compose/releases/download/1.16.0-rc1/docker-co
 chmod +x /usr/local/bin/docker-compose
 exit
 ```
-### 4. Setup Database
-`docker-compose run web ./scripts/migrate.rb`
-### 5. Start Server
+### 4. Start Server
 `docker-compose up`
 
 ### Useful Commands
