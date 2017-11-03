@@ -3,3 +3,4 @@ EXPOSE 5000
 COPY Gemfile* ./
 RUN bundle install
 WORKDIR /app
+RUN echo "PATH=/app/scripts:$PATH" >> ~/.bashrc

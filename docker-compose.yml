@@ -8,7 +8,7 @@ services:
       - db
     volumes:
       - .:/app
-    command: ./scripts/start.sh  
+    command: ./scripts/start
   db:
     image: postgres
     environment: 

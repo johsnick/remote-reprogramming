@@ -1,5 +1,5 @@
 #! /bin/bash
 set -e
 bundle check || bundle install
-./scripts/migrate.rb
+./scripts/migrate
 rackup --host 0.0.0.0 -p 5000
