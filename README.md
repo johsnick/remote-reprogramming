@@ -1,14 +1,12 @@
-# Khatting-Koala
+# Remote Reprogramming
 ## Setup
 ### 1. Clone the repo
 ```
-git clone git@github.com:powderhook/khatting-koala.git
-cd khatting-koala
+git clone git@github.com:johsnick/remote-reprogramming.git
+cd remote-reprogramming
 ```
-### 2. Add Keyfile
-You will need to get someone to give you access to the Keys folder in drive or the application.yml file. Add this file to the config folder. This file will change from time to time so its probably a good idea to just create a link and have the drive folder automatically sync.
 
-### 3. Install Docker CE
+### 2. Install Docker CE
 #### Mac
 Go [Here](https://store.docker.com/editions/community/docker-ce-desktop-mac)
 #### Linux
@@ -22,7 +20,7 @@ sudo usermod -aG docker <YOUR USERNAME>
 
 Log out then log back in. This is to update your permissions
 
-### 4. Install Docker Compose
+### 3. Install Docker Compose
 #### Mac
 Docker for Mac already installs this so you just win
 #### Linux
@@ -32,18 +30,9 @@ curl -L https://github.com/docker/compose/releases/download/1.16.0-rc1/docker-co
 chmod +x /usr/local/bin/docker-compose
 exit
 ```
-### 5. Install docker-sync
-```
-gem install docker-sync
-```
-this is used for more efficient volumes, you have to have this started to get file sharing
-to start run
-```
-docker-sync start
-```
-### 6. Setup Database
-`docker-compose run web rake db:rebuild`
-### 7. Start Server
+### 4. Setup Database
+`docker-compose run web ./scripts/migrate.rb`
+### 5. Start Server
 `docker-compose up`
 
 ### Useful Commands
@@ -55,6 +44,3 @@ docker-sync start
 
 * enter console `docker-compose run web bash`
 > this creates a new container so you don't need the server to be up
-
-### 8. Code
-Get to work.
