@@ -1,8 +1,3 @@
-require "sinatra/base"
-require "./db/connect"
-
-Dir[File.dirname(__FILE__) + '/models/*.rb'].each {|file| require file }
-
 class App < Sinatra::Base
   get "/" do
     send_file 'views/sign_in.html'
@@ -24,12 +19,13 @@ class App < Sinatra::Base
    end
 
   post '/users/sign-in' do 
-    user = User.first(username: params[:username])
-    if user && user.password == params[:password]
-      "correct"
-    else 
-      "wrong"
-    end
+    warden.authenticate
+
+    "success"
   end  
+
+  get '/test' do 
+    current_user.username
+  end
 end
  
