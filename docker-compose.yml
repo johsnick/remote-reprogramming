@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   web:
     build: .
@@ -8,5 +8,8 @@ services:
       - db
     volumes:
       - .:/app
+    command: ./scripts/start.sh  
   db:
     image: postgres
+    environment: 
+      - POSTGRES_PASSWORD=password
