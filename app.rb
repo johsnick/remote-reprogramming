@@ -1,6 +1,10 @@
 class App < Sinatra::Base
   get "/" do
-    send_file 'views/sign_in.html'
+    if current_user
+       redirect '/radios'
+    else
+      rend :sign_in
+    end
   end
 
   post '/radios/register-ip' do 
@@ -18,14 +22,33 @@ class App < Sinatra::Base
     # reprogram radio here
    end
 
+  post '/radios/reprogram-batch' do
+    params[:radio_ids]
+  end
+
+  get '/radios' do
+    @radios = Radio.all
+    rend :radios
+  end
+
   post '/users/sign-in' do 
     warden.authenticate
-
-    "success"
+    redirect '/'
   end  
 
-  get '/test' do 
-    current_user.username
+  get '/users/sign-out' do 
+    warden.logout
+    redirect '/'
+  end
+
+  post '/software' do 
+    software = Software.new
+    software.filename = params[:filename]
+    software.name = params[:name]
+    software.description = params[:description]
+    software.save
+  rescue => e
+    e
   end
 end
  

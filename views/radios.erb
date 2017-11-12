@@ -1,0 +1,81 @@
+<div class="container">
+  <h1>Radios</h1>
+  <div class="container">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>IP</th>
+          <th>Software Version</th>
+          <th>Reprogram</th>
+        </tr>
+      </thead>
+      <% @radios.each do |radio| %>
+      <tr>
+        <td><%= radio.name %></td>
+        <td><%= radio.ip %></td>
+        <td>v1</td>
+        <td><input class="radio-id" type="checkbox" value="<%=radio.id%>"></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+  <div class="row">
+    <form id="reprogram">
+      <div class="form-group col-xs-9">
+        <select class="form-control" id="version">
+          <option>Select Software Version
+          <option>v1</option>
+          <option>v2</option>
+        </select>
+      </div>
+      <div class="form-group col-xs-3">
+        <button type="submit" class="btn btn-primary">Reprogram Radios</button>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <div id="alert" class="alert" style="display:none">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+function display_alert() {
+  $('#alert').slideDown(400, function(){
+    setTimeout(function(){
+      $('#alert').slideUp(400);
+    }, 5000);
+  });
+}
+
+$(document).ready(function() {
+  $('#reprogram').submit(function(e) {
+    e.preventDefault();
+    data = {
+      radio_ids: $('.radio-id:checkbox:checked').map(function(){ return $(this).val() }).get(),
+      software_version: $('#version').val()
+    }
+
+    $.ajax({
+      url: '/radios/reprogram-batch',
+      method: 'POST',
+      data: data,
+      success: function(e) {
+        $('#alert').addClass("alert-success");
+        $('#alert').removeClass("alert-danger");
+        $('#alert').html("Radios Sucessfully Updated");
+        display_alert();
+      },
+      error: function(e) {
+        console.log(e);
+        $('#alert').addClass("alert-danger");
+        $('#alert').removeClass("alert-success");
+        $('#alert').html("An Error Occurred");
+        display_alert();
+      }
+    })
+  });
+});
+</script>

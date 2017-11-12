@@ -12,3 +12,5 @@ Dir['./models/*.rb'].each {|file| require file }
 Dir['./lib/*.rb'].each {|file| require file }
 
 pry
+
+exit 0
