@@ -47,8 +47,11 @@ class App < Sinatra::Base
     software.name = params[:name]
     software.description = params[:description]
     software.save
+  end
+  
+  begin  
   rescue => e
-    e
+      e
   end
 end
  
