@@ -25,8 +25,9 @@
       <div class="form-group col-xs-9">
         <select class="form-control" id="version">
           <option>Select Software Version
-          <option>v1</option>
-          <option>v2</option>
+          <% @software.each do |soft| %>
+          <option data-id="<%= soft.id %>"><%= soft.name %></option>
+          <% end %>
         </select>
       </div>
       <div class="form-group col-xs-3">
@@ -34,6 +35,12 @@
       </div>
     </form>
   </div>
+  <% @software.each do |soft| %>
+  <div id="soft-<%=soft.id%>" class="hidden soft-details">
+    <h4>Details</h4>
+    <%= soft.details %>
+  </div>
+  <% end %>
   <div class="row">
     <div id="alert" class="alert" style="display:none">
     </div>
@@ -48,6 +55,13 @@ function display_alert() {
       $('#alert').slideUp(400);
     }, 5000);
   });
+}
+
+function update_details() {
+  var soft_id = $('#version option:selected').data('id');
+  console.log(soft_id);
+  $('.soft-details').addClass('hidden');
+  $('#soft-' + soft_id).removeClass('hidden');
 }
 
 $(document).ready(function() {
@@ -77,5 +91,9 @@ $(document).ready(function() {
       }
     })
   });
+
+  $('#version').change(update_details);
+
+  update_details();
 });
 </script>

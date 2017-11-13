@@ -28,6 +28,7 @@ class App < Sinatra::Base
 
   get '/radios' do
     @radios = Radio.all
+    @software = Software.select(:id, :name, :details)
     rend :radios
   end
 
@@ -42,16 +43,30 @@ class App < Sinatra::Base
   end
 
   post '/software' do 
-    software = Software.new
-    software.filename = params[:filename]
-    software.name = params[:name]
-    software.description = params[:description]
-    software.save
+    soft = Software.first(name: params[:name])
+    unless soft
+      soft = Software.new
+      soft.name = params[:name]
+    end
+
+    soft.filename = params[:file][:filename]
+    soft.details = params[:details]
+
+    begin 
+      soft.save
+    rescue => e
+      e.to_s
+    end
+
+    f = open("software/#{soft.filename}", 'w')
+    f.write(params[:file][:tempfile].read)
+    f.close
+
+    rend :software
   end
-  
-  begin  
-  rescue => e
-      e
+
+  get '/software' do 
+    rend :software
   end
 end
  
