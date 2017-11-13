@@ -58,6 +58,7 @@ class App < Sinatra::Base
       e.to_s
     end
 
+    %x( mkdir software )
     f = open("software/#{soft.filename}", 'w')
     f.write(params[:file][:tempfile].read)
     f.close
