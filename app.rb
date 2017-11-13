@@ -63,7 +63,7 @@ class App < Sinatra::Base
     f.write(params[:file][:tempfile].read)
     f.close
 
-    rend :software
+    redirect '/radios'
   end
 
   get '/software' do 
