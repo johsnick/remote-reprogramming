@@ -34,9 +34,8 @@
           <% end %>
         </select>
       </div>
-      <br>
       <% @software.each do |soft| %>
-        <div id="soft-<%=soft.id%>" class="hidden soft-details">
+        <div id="soft-<%=soft.id%>" class="hidden soft-details row">
           <h4>Details</h4>
           <%= soft.details %>
         </div>
