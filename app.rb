@@ -23,7 +23,7 @@ class App < Sinatra::Base
    end
 
   post '/radios/reprogram-batch' do
-    params[:radio_ids]
+    params[:radio_ids].asdf
   end
 
   get '/radios' do
