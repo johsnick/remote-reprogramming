@@ -8,6 +8,8 @@ class App < Sinatra::Base
   end
 
   post '/radios/register-ip' do 
+    auth
+
     radio = Radio.first(name: params[:name])
     if radio.nil?
       radio = Radio.new
@@ -18,15 +20,18 @@ class App < Sinatra::Base
   end
 
   post '/radios/:id/reprogram' do |id|
+    auth 
     radio = Radio[id]
     # reprogram radio here
    end
 
   post '/radios/reprogram-batch' do
+    auth 
     params[:radio_ids].asdf
   end
 
   get '/radios' do
+    auth 
     @radios = Radio.all
     @software = Software.select(:id, :name, :details)
     rend :radios
@@ -38,11 +43,13 @@ class App < Sinatra::Base
   end  
 
   get '/users/sign-out' do 
+    auth 
     warden.logout
     redirect '/'
   end
 
   post '/software' do 
+    auth 
     soft = Software.first(name: params[:name])
     unless soft
       soft = Software.new
@@ -67,6 +74,7 @@ class App < Sinatra::Base
   end
 
   get '/software' do 
+    auth 
     rend :software
   end
 end
