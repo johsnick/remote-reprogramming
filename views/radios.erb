@@ -22,6 +22,10 @@
   </div>
   <div class="row">
     <form id="reprogram">
+      <div class="row">
+        <div id="alert" class="alert" style="display:none">
+        </div>
+      </div>
       <div class="form-group col-xs-9">
         <select class="form-control" id="version">
           <option>Select Software Version
@@ -36,10 +40,7 @@
           <%= soft.details %>
         </div>
       <% end %>
-      <div class="row">
-        <div id="alert" class="alert" style="display:none">
-        </div>
-      </div>
+
       <div class="form-group col-xs-3">
         <button type="submit" class="btn btn-primary">Reprogram Radios</button>
       </div>
