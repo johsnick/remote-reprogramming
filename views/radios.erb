@@ -30,20 +30,20 @@
           <% end %>
         </select>
       </div>
+      <% @software.each do |soft| %>
+        <div id="soft-<%=soft.id%>" class="hidden soft-details">
+          <h4>Details</h4>
+          <%= soft.details %>
+        </div>
+      <% end %>
+      <div class="row">
+        <div id="alert" class="alert" style="display:none">
+        </div>
+      </div>
       <div class="form-group col-xs-3">
         <button type="submit" class="btn btn-primary">Reprogram Radios</button>
       </div>
     </form>
-  </div>
-  <% @software.each do |soft| %>
-  <div id="soft-<%=soft.id%>" class="hidden soft-details">
-    <h4>Details</h4>
-    <%= soft.details %>
-  </div>
-  <% end %>
-  <div class="row">
-    <div id="alert" class="alert" style="display:none">
-    </div>
   </div>
 </div>
 
