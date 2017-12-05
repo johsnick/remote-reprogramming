@@ -20,19 +20,25 @@ class App < Sinatra::Base
   end
 
   post '/radios/:id/reprogram' do |id|
+    # probably won't need to use this
+    # if we do want this, do as below.
+    # or get James to make it do as below.
     auth
-    radio = Radio[id]
+    radio = Radio[id].asdf
     # reprogram radio here
    end
 
   post '/radios/reprogram-batch' do
     auth
-    radios = Radio.find params[:radio_ids]
+    radios = Radio.where(id: params[:radio_ids])
+    software = Software.where(name: params[:software_version]).first
 
-    #ensure the software actually exists
-    software = Software.find(params[:software_id]).first
+    radios.update(software_id: software.id)
 
-    radios.update(software: software)
+    # actually reprogram the radios here
+
+    # rend :none
+    return 200
   end
 
   get '/radios' do
