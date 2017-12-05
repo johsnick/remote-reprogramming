@@ -7,7 +7,7 @@ class App < Sinatra::Base
     end
   end
 
-  post '/radios/register-ip' do 
+  post '/radios/register-ip' do
     auth
 
     radio = Radio.first(name: params[:name])
@@ -20,46 +20,57 @@ class App < Sinatra::Base
   end
 
   post '/radios/:id/reprogram' do |id|
-    auth 
-    radio = Radio[id]
+    # probably won't need to use this
+    # if we do want this, do as below.
+    # or get James to make it do as below.
+    auth
+    radio = Radio[id].asdf
     # reprogram radio here
    end
 
   post '/radios/reprogram-batch' do
-    auth 
-    params[:radio_ids].asdf
+    auth
+    radios = Radio.where(id: params[:radio_ids])
+    software = Software.where(name: params[:software_version]).first
+
+    radios.update(software_id: software.id)
+
+    # actually reprogram the radios here
+
+    # rend :none
+    return 200
   end
 
   get '/radios' do
-    auth 
+    auth
     @radios = Radio.all
     @software = Software.select(:id, :name, :details)
     rend :radios
   end
 
-  post '/users/sign-in' do 
+  post '/users/sign-in' do
     warden.authenticate
     redirect '/'
-  end  
+  end
 
-  get '/users/sign-out' do 
-    auth 
+  get '/users/sign-out' do
+    auth
     warden.logout
     redirect '/'
   end
 
-  post '/software' do 
-    auth 
+  post '/software' do
+    auth
     soft = Software.first(name: params[:name])
     unless soft
       soft = Software.new
       soft.name = params[:name]
     end
 
-    soft.filename = params[:file][:filename]
+    soft.filename = params[:file][:filename] # not selecting a file causes error here.
     soft.details = params[:details]
 
-    begin 
+    begin
       soft.save
     rescue => e
       e.to_s
@@ -73,9 +84,8 @@ class App < Sinatra::Base
     redirect '/radios'
   end
 
-  get '/software' do 
-    auth 
+  get '/software' do
+    auth
     rend :software
   end
 end
- 
