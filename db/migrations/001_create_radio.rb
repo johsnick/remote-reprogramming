@@ -4,7 +4,6 @@ Sequel.migration do
       primary_key :id
       String :name
       String :ip
-      Integer :pid
     end
   end
 end
