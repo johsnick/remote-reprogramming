@@ -4,4 +4,11 @@ require 'dotenv/load'
 require './db/connect'
 
 Sequel.extension :migration
-Sequel::Migrator.run(DB, "db/migrations")
+
+if ARGV[0]
+  target = ARGV[0].to_i
+else 
+  target = nil
+end
+
+Sequel::Migrator.run(DB, "db/migrations", target: target)
