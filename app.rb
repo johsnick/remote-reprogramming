@@ -41,10 +41,8 @@ class App < Sinatra::Base
     radios.update(software_id: software.id)
 
     # actually reprogram the radios here
-    radios.each do |rad|
-      rrpg = RRPG.new
-      rrpg.reprogram(rad)
-    end
+    RRPG.reprogram_batch(radios.map(:id))
+
     # rend :none
     return 200
   end
