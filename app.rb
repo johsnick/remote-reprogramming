@@ -1,6 +1,6 @@
 class App < Sinatra::Base
 
-  require('rrpg.rb')
+  require_relative 'lib/rrpg/rrpg'
 
   get "/" do
     if current_user
@@ -27,8 +27,9 @@ class App < Sinatra::Base
     # if we do want this, do as below.
     # or get James to make it do as below.
     auth
-    rrpg = RRPG(id)
-    rrpg.reprogram()
+    radio = Radio[id].asdf
+    rrpg = RRPG.new
+    rrpg.reprogram(radio.id)
     # reprogram radio here
    end
 
@@ -41,8 +42,8 @@ class App < Sinatra::Base
 
     # actually reprogram the radios here
     radios.each do |rad|
-      rrpg = RRPG(rad)
-      rrpg.reprogram()
+      rrpg = RRPG.new
+      rrpg.reprogram(rad)
     end
     # rend :none
     return 200

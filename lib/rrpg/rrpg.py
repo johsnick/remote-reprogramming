@@ -6,7 +6,7 @@ import top_block
 
 signal.signal(signal.SIGTERM, killhandle)
 
-def main(ip_addr, file_location, type, additional_args = ""):
+def main(ip_addr, file_location, type, appDir, additional_args = ""):
 	response = os.system("ping -c 1 " + ip_addr)
 
 	if(response <= 0):
@@ -34,4 +34,4 @@ def killhandle(signum, frame):
 
 
 if __name__ == '__main__':
-	main(sys.argv[1], sys.argv[2], sys.argv[3])
+	main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])

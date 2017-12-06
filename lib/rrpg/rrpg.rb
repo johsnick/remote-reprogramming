@@ -1,6 +1,12 @@
 class RRPG
-  def reprogram(radioId) do
-    r = Radio.where(radio_id: radioId)
+
+  def reprogram(_radioID)
+
+
+
+
+    r = Radio.where(radio_id: _radioID)
+    puts "RadioID: " + r.name
 
     # Process is currently running
     if r.pid > 0
@@ -10,12 +16,13 @@ class RRPG
     # if we want to copy log files out to the DB we need to do it here.
     # Otherwise, we are gonna overwrite them on the Process.spawn
 
-    _filePath = " ./var/tmp/"+r.name.parameterize.underscore
+    _filePath = " radios/"+r.id
 
-    _rrpgArgs = _filePath + " " + r.ip + " " + r.type
+    _rrpgArgs = _filePath + " " + r.ip + " " + r.radioType + " " "software/#{r.filename}"
 
     r.pid = Process.spawn(("python rrpg " + _rrpgArgs))
 
     r.save
   end
+
 end
