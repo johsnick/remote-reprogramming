@@ -1,4 +1,7 @@
 class App < Sinatra::Base
+
+  require_relative 'lib/rrpg/rrpg'
+
   get "/" do
     if current_user
        redirect '/radios'
@@ -25,6 +28,8 @@ class App < Sinatra::Base
     # or get James to make it do as below.
     auth
     radio = Radio[id].asdf
+    rrpg = RRPG.new
+    rrpg.reprogram(radio.id)
     # reprogram radio here
    end
 
@@ -36,6 +41,7 @@ class App < Sinatra::Base
     radios.update(software_id: software.id)
 
     # actually reprogram the radios here
+    RRPG.reprogram_batch(radios.map(:id))
 
     # rend :none
     return 200

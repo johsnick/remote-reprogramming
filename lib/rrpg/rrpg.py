@@ -4,11 +4,11 @@ import sys
 
 import top_block
 
+signal.signal(signal.SIGTERM, killhandle)
 
-
-def main(ip_addr, file_location, type, additional_args = ""):
+def main(ip_addr, file_location, type, appDir, additional_args = ""):
 	response = os.system("ping -c 1 " + ip_addr)
-	 
+
 	if(response <= 0):
 		print "Could not connect"
 		return -10
@@ -24,5 +24,14 @@ def main(ip_addr, file_location, type, additional_args = ""):
 	tb.Start(True)
 	tb.Wait()
 
+def killhandle(signum, frame):
+     ''' This will close connections cleanly '''
+    line = "SIGTERM detected, shutting down"
+    syslog.syslog(syslog.LOG_INFO, line)
+    rdb_server.close()
+    syslog.closelog()
+    sys.exit(0)
+
+
 if __name__ == '__main__':
-	main('192.168.0.1', '/file_location', 'n210')
+	main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
