@@ -25,12 +25,12 @@ def main(ip_addr, file_location, type, appDir, additional_args = ""):
 	tb.Wait()
 
 def killhandle(signum, frame):
-     ''' This will close connections cleanly '''
-    line = "SIGTERM detected, shutting down"
-    syslog.syslog(syslog.LOG_INFO, line)
-    rdb_server.close()
-    syslog.closelog()
-    sys.exit(0)
+	''' This will close connections cleanly '''
+	line = "SIGTERM detected, shutting down"
+	syslog.syslog(syslog.LOG_INFO, line)
+	rdb_server.close()
+	syslog.closelog()
+	sys.exit(0)
 
 
 if __name__ == '__main__':

@@ -27,24 +27,29 @@ class App < Sinatra::Base
     # if we do want this, do as below.
     # or get James to make it do as below.
     auth
-    radio = Radio[id].asdf
+    radio = Radio[id]
     rrpg = RRPG.new
     rrpg.reprogram(radio.id)
     # reprogram radio here
    end
 
   post '/radios/reprogram-batch' do
-    auth
-    radios = Radio.where(id: params[:radio_ids])
-    software = Software.where(name: params[:software_version]).first
+    begin 
+      auth
+      radios = Radio.where(id: params[:radio_ids])
+      software = Software.where(name: params[:software_version]).first
+      radios.each {|r| r.update(software_id: software.id) }
 
-    radios.update(software_id: software.id)
+      # actually reprogram the radios here
+      RRPG.reprogram_batch(radios, software)
 
-    # actually reprogram the radios here
-    RRPG.reprogram_batch(radios.map(:id))
+      # rend :none
+      return 200
 
-    # rend :none
-    return 200
+    rescue => e
+      rend e.to_s
+      return 500
+    end
   end
 
   get '/radios' do
